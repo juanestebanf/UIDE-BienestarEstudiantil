@@ -469,11 +469,11 @@ nodemon index.js o como se definio en el package.json
 Paso 6: Probar las Rutas
 Usa una herramienta como Postman o curl para probar las rutas:
 
-GET /usuario: http://localhost:3000/usuario
+GET api/usuario: http://localhost:3000/api/usuario
 
 
 
-GET /solicitudes:http://localhost:3000/solicitudes
+GET api/solicitudes:http://localhost:3000/api/solicitudes
 
 
 
