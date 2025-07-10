@@ -471,11 +471,11 @@ Usa una herramienta como Postman o curl para probar las rutas:
 
 GET api/usuario: http://localhost:3000/api/usuario
 
-
+POST api/usuario: http://localhost:3000/api/usuario
 
 GET api/solicitudes:http://localhost:3000/api/solicitudes
 
-
+POST api/solicitudes:http://localhost:3000/api/solicitudes
 
 
 Estructura de los Datos JSON
