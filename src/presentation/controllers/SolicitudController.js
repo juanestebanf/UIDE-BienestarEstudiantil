@@ -1,5 +1,4 @@
 import SolicitudService from '../../business/services/SolicitudService.js';
-
 class SolicitudController {
   static async createSolicitud(req, res) {
     try {

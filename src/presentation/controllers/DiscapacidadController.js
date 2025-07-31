@@ -11,7 +11,8 @@ class DiscapacidadController {
           details: [],
         });
       }
-      const discapacidad = await DiscapacidadService.createDiscapacidad(req.user.userId, req.body);
+      const fileUrl = req.file ? `/Uploads/${req.file.filename}` : null;
+      const discapacidad = await DiscapacidadService.createDiscapacidad(req.user.userId, req.body, fileUrl);
       res.status(201).json({
         message: 'Discapacidad registrada exitosamente',
         data: discapacidad,
@@ -43,6 +44,31 @@ class DiscapacidadController {
     }
   }
 
+  static async getAllDiscapacidades(req, res) {
+    try {
+      if (req.user.rol !== 'administrador') {
+        return res.status(403).json({
+          error: 'No autorizado',
+          code: 'FORBIDDEN',
+          message: 'Solo los administradores pueden ver todas las discapacidades',
+          details: [],
+        });
+      }
+      const discapacidades = await DiscapacidadService.getDiscapacidad(null, 'administrador');
+      res.status(200).json({
+        message: 'Discapacidades obtenidas exitosamente',
+        data: discapacidades,
+      });
+    } catch (error) {
+      res.status(422).json({
+        error: 'Error al obtener discapacidades',
+        code: 'DISCAPACIDAD_ERROR',
+        message: error.message,
+        details: [],
+      });
+    }
+  }
+
   static async updateDiscapacidad(req, res) {
     try {
       if (req.user.rol !== 'estudiante') {
@@ -53,7 +79,8 @@ class DiscapacidadController {
           details: [],
         });
       }
-      const discapacidad = await DiscapacidadService.updateDiscapacidad(req.user.userId, req.body);
+      const fileUrl = req.file ? `/Uploads/${req.file.filename}` : null;
+      const discapacidad = await DiscapacidadService.updateDiscapacidad(req.user.userId, req.body, fileUrl);
       res.status(200).json({
         message: 'Discapacidad actualizada exitosamente',
         data: discapacidad,

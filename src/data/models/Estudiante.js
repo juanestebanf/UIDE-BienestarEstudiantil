@@ -9,7 +9,7 @@ const Estudiante = sequelize.define('Estudiante', {
   },
   cedula: {
     type: DataTypes.STRING(20),
-    unique: true,
+    unique: 'cedula_unique', 
     allowNull: false,
     validate: {
       is: /^\d{10}$/,
@@ -17,7 +17,7 @@ const Estudiante = sequelize.define('Estudiante', {
   },
   matricula: {
     type: DataTypes.STRING(20),
-    unique: true,
+    unique: 'matricula_unique', 
     allowNull: false,
     validate: {
       is: /^U\d{6}$/,
@@ -52,9 +52,13 @@ const Estudiante = sequelize.define('Estudiante', {
 }, {
   tableName: 'Estudiante',
   timestamps: false,
+  indexes: [
+    { unique: true, name: 'cedula_unique', fields: ['cedula'] },
+    { unique: true, name: 'matricula_unique', fields: ['matricula'] },
+  ],
 });
 
-Estudiante.belongsTo(Usuario, { foreignKey: 'id' });
-Usuario.hasOne(Estudiante, { foreignKey: 'id' });
+Estudiante.belongsTo(Usuario, { foreignKey: 'id', constraints: false }); 
+Usuario.hasOne(Estudiante, { foreignKey: 'id', constraints: false });
 
 export default Estudiante;

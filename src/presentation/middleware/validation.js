@@ -1,5 +1,5 @@
 import { body, param, validationResult } from 'express-validator';
-import SubtipoSolicitud  from '../../data/models/SubtipoSolicitud.js';
+import SubtipoSolicitud from '../../data/models/SubtipoSolicitud.js';
 
 export const validateUser = [
   body('correo_institucional')
@@ -98,9 +98,9 @@ export const validateSolicitud = [
 ];
 
 export const validateSolicitudUpdate = [
-  body('estado').isIn(['Pendiente', 'Aprobado', 'Rechazado', 'En espera']).withMessage('Estado inválido'),
-  body('observaciones').optional().isString().withMessage('Observaciones deben ser texto'),
-  body('comentario').optional().isString().withMessage('Comentario debe ser texto'),
+  body('estado_actual')
+    .isIn(['Pendiente', 'Aprobado', 'Rechazado', 'En espera'])
+    .withMessage('El estado debe ser uno de: Pendiente, Aprobado, Rechazado, En espera'),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -108,10 +108,7 @@ export const validateSolicitudUpdate = [
         error: 'Error de validación',
         code: 'VALIDATION_ERROR',
         message: 'Los datos proporcionados no son válidos',
-        details: errors.array().map(err => ({
-          field: err.path,
-          message: err.msg,
-        })),
+        details: errors.array(),
       });
     }
     next();
@@ -159,9 +156,26 @@ export const validateDocumento = [
 ];
 
 export const validateDiscapacidad = [
-  body('tipo').isString().withMessage('Tipo de discapacidad debe ser texto'),
-  body('carnet_conadis').optional().isString().withMessage('Carnet CONADIS debe ser texto'),
-  body('informe_medico').optional().isString().withMessage('Informe médico debe ser texto'),
+  body('tipo')
+    .notEmpty()
+    .withMessage('El tipo de discapacidad es requerido')
+    .isString()
+    .withMessage('El tipo de discapacidad debe ser texto')
+    .isLength({ max: 100 })
+    .withMessage('El tipo de discapacidad no puede exceder los 100 caracteres'),
+  body('carnet_conadis')
+    .optional()
+    .isString()
+    .withMessage('El carnet CONADIS debe ser texto')
+    .isLength({ max: 50 })
+    .withMessage('El carnet CONADIS no puede exceder los 50 caracteres'),
+  body('informe_medico')
+    .optional()
+    .if(body('informe_medico').exists())
+    .isString()
+    .withMessage('El informe médico debe ser una URL válida')
+    .matches(/^\/Uploads\//)
+    .withMessage('El informe médico debe ser una URL que comience con /Uploads/'),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
