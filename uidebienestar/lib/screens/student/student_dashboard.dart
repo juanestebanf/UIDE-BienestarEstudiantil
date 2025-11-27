@@ -194,7 +194,6 @@ class StudentHomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 16),
 
-                      // ← ÍCONO BONITO EN LUGAR DE IMAGEN
                       Container(
                         width: 90,
                         height: 90,
@@ -326,9 +325,9 @@ class NuevaSolicitudScreen extends StatelessWidget {
   }
 }
 
-// ============================
+
 // PERFIL
-// ============================
+
 class PerfilScreen extends StatelessWidget {
   const PerfilScreen({Key? key}) : super(key: key);
 
