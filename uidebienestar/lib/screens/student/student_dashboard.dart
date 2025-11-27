@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../theme/uide_colors.dart';
-import '../../main.dart'; // para logout
+import '../../main.dart'; 
 
 class StudentDashboard extends StatefulWidget {
   const StudentDashboard({Key? key}) : super(key: key);
